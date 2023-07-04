@@ -36,7 +36,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"New commit pushed by ${commit_details.outputs.commit_author}:\nCommit: ${commit_details.outputs.commit_name}\nDescription: ${commit_details.outputs.commit_description}\"}" $SLACK_WEBHOOK_URL
+          curl -X POST -H "Content-type: application/json" --data "{\"text\":\"New commit pushed by ${commit_details.outputs.commit_author}:\nCommit: ${commit_details.outputs.commit_name}\nDescription: ${commit_details.outputs.commit_description}\"}" $SLACK_WEBHOOK_URL
 
       - name: Send Slack notification on test
         if: github.event_name == 'pull_request'
