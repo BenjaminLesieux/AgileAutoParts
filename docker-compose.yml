@@ -1,0 +1,17 @@
+version: "3"
+services:
+  jenkins_server:
+    build:
+      context: .
+      dockerfile: jenkins.Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+  registry:
+    image: registry
+    container_name: registry
+    restart: always
+    ports:
+      - "4000:5000"
