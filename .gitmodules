@@ -1,0 +1,3 @@
+[submodule "Musify"]
+	path = ./apps/Musify
+	url = https://github.com/BenjaminLesieux/Musify
