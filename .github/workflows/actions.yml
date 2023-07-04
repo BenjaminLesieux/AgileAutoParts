@@ -1,5 +1,10 @@
 name: Slack Notifications
 
+#author : us
+
+env:
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
 on:
   push:
     branches:
@@ -21,26 +26,14 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Extract commit details
-        id: commit_details
-        run: |
-          COMMIT_NAME=$(git log --format=%B -n 1 ${{ github.sha }})
-          COMMIT_DESCRIPTION=$(git log --format=%B -n 1 ${{ github.sha }})
-          COMMIT_AUTHOR=$(git log --format=%an -n 1 ${{ github.sha }})
-          echo "::set-output name=commit_name::$COMMIT_NAME"
-          echo "::set-output name=commit_description::$COMMIT_DESCRIPTION"
-          echo "::set-output name=commit_author::$COMMIT_AUTHOR"
-
-      - name: Send Slack notification on commit
-        if: github.event_name == 'push'
+      - name: Notification on failure
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@master
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
-          curl -X POST -H "Content-type: application/json" --data "{\"text\":\"New commit pushed by ${commit_details.outputs.commit_author}:\nCommit: ${commit_details.outputs.commit_name}\nDescription: ${commit_details.outputs.commit_description}\"}" $SLACK_WEBHOOK_URL
+          SLACK_TITLE: Failed
 
-      - name: Send Slack notification on test
-        if: github.event_name == 'pull_request'
+      - name: Notification on success
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@master
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Pull request tests executed!"}' $SLACK_WEBHOOK_URL
+          SLACK_TITLE: Success
