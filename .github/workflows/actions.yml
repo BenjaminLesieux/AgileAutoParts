@@ -1,6 +1,10 @@
 name: Slack Notifications
 
 #author : us
+
+env:
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
 on:
   push:
     branches:
