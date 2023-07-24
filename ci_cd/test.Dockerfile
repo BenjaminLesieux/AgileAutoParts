@@ -11,8 +11,8 @@ RUN npm -v
 RUN node -v
 
 COPY /Musify/* /usr/src/app
-COPY /Musify/package.json /usr/src/app
-COPY /Musify/package-lock.json /usr/src/app
+
+RUN ls
 
 RUN npm install
 
