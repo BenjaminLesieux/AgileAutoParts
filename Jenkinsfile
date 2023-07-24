@@ -33,7 +33,7 @@ pipeline {
           }
           steps {
             withSonarQubeEnv(installationName: "SonarQube") {
-                sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=./sonar-project.properties"
+                sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
             }
           }
         }
