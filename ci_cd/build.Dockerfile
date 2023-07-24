@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 COPY /with-jest-app/package.json ./
 COPY /with-jest-app/package-lock.json ./
 RUN npm ci
+COPY /with-jest-app/ ./
 
 FROM base AS builder
 WORKDIR /usr/src/app
