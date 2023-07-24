@@ -1,24 +1,27 @@
-# Use the official Node.js LTS image as the base image
-FROM node:lts
+FROM node:18-alpine AS base
 
-# Create app directory
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+COPY /with-jest-app/package.json ./
+COPY /with-jest-app/package-lock.json ./
+RUN npm ci
 
-# Versions
-RUN npm -v
-RUN node -v
+FROM base AS builder
+WORKDIR /usr/src/app
+COPY --from=deps /with-jest-app/node_modules ./node_modules
+COPY . .
+RUN npm run build
 
-# Install app dependencies
-COPY /with-jest-app/package*.json /usr/src/app/
-
-RUN npm install
-
-# Bundle app source
-COPY /with-jest-app/* /usr/src/app
-
-# Expose the port that the Express app listens on
+FROM base AS runner
+WORKDIR usr/src/app
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+COPY --from=builder /with-jest-app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /with-jest-app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /with-jest-app/.next/static ./.next/static
+USER nextjs
 EXPOSE 3000
-
-# Start the Express app
-CMD ["node", "index.js"]
+ENV PORT 3000
+CMD ["node", "server.js"]

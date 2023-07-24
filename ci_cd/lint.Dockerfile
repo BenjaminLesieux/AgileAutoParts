@@ -17,7 +17,7 @@ COPY /with-jest-app/package-lock.json /usr/src/app/
 RUN npm install
 
 # Bundle app source
-COPY /with-jest-app/* /usr/src/app/
+COPY /with-jest-app/ /usr/src/app/
 
 # Port to listener
 EXPOSE 3000
