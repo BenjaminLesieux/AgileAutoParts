@@ -10,11 +10,12 @@ WORKDIR /usr/src/app
 RUN npm -v
 RUN node -v
 
-COPY /Musify/* /usr/src/app
-
-RUN ls
+COPY /with-jest-app/package.json /usr/src/app
+COPY /with-jest-app/package-lock.json /usr/src/app/
 
 RUN npm install
+
+COPY /with-jest-app/* /usr/src/app
 
 # Environment variables
 ENV NODE_ENV test

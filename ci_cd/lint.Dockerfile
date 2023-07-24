@@ -11,13 +11,13 @@ RUN npm -v
 RUN node -v
 
 # Install app dependencies
-COPY /Musify/package.json /usr/src/app/
-COPY /Musify/package-lock.json /usr/src/app/
+COPY /with-jest-app/package.json /usr/src/app/
+COPY /with-jest-app/package-lock.json /usr/src/app/
 
 RUN npm install
 
 # Bundle app source
-COPY /Musify/* /usr/src/app
+COPY /with-jest-app/* /usr/src/app/
 
 # Port to listener
 EXPOSE 3000
@@ -27,4 +27,4 @@ ENV NODE_ENV production
 ENV PORT 3000
 ENV PUBLIC_PATH "/"
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "lint"]

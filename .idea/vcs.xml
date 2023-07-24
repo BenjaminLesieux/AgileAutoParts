@@ -2,9 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Musify" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/jenkins_home/caches/git-79dff262c83ef963396b60be3d9a71d3" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/jenkins_home/workspace/agile-auto-parts" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/jenkins_home/workspace/agile_auto_parts" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/jenkins_home/workspace/agileautoparts" vcs="Git" />
   </component>
 </project>
