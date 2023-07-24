@@ -4,54 +4,34 @@ pipeline {
         discord_wh = credentials('discord_wh')
     }
     stages {
-        stage('Checkout') {
+        stage('Checkout & Environment') {
           steps {
             checkout scm
-          }
-        }
-        stage('Environment') {
-          steps {
-              sh 'git --version'
-              echo "Branch: ${env.BRANCH_NAME}"
-              sh 'docker -v'
-              sh 'printenv'
+            sh 'git --version'
+            echo "Branch: ${env.BRANCH_NAME}"
+            sh 'docker -v'
+            sh 'printenv'
           }
         }
         stage('Lint code') {
             steps {
                 sh 'docker build -t react-lint -f ./ci_cd/lint.Dockerfile --no-cache .'
+                sh 'docker run --rm react-lint'
+                sh 'docker rmi -f react-lint'
             }
         }
-        stage('Docker lint'){
-          steps {
-            sh 'docker run --rm react-lint'
-          }
-        }
-        stage('Clean Docker lint'){
-          steps {
-            sh 'docker rmi -f react-lint'
-          }
-        }
-        stage('Build Docker test'){
+        stage('Test code'){
            steps {
               sh 'docker build -t react-test -f ./ci_cd/test.Dockerfile --no-cache .'
+              sh 'docker run --rm react-test'
+              sh 'docker rmi -f react-test'
            }
-        }
-        stage('Docker test'){
-          steps {
-            sh 'docker run --rm react-test'
-          }
-        }
-        stage('Clean Docker test'){
-          steps {
-            sh 'docker rmi -f react-test'
-          }
         }
         stage('SonarQube Analysis') {
           steps {
             discordSend description: "Launching SonarQube quality gate", footer: "AgileAutoParts", result: currentBuild.currentResult, title: "Quality Gate", webhookURL: env.discord_wh
             withSonarQubeEnv(installationName: "SonarQube") {
-                sh "${scannerHome}/bin/sonar-scanner"
+                sh "SonarQube/bin/sonar-scanner"
             }
           }
         }
