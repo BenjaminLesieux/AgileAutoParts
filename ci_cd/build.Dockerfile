@@ -6,7 +6,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY /with-jest-app/package.json ./
 COPY /with-jest-app/package-lock.json ./
-RUN npm ci
+RUN npm i
 COPY /with-jest-app/ ./
 
 FROM base AS builder
