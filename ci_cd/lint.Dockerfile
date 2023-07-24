@@ -13,6 +13,8 @@ RUN node -v
 # Install app dependencies
 COPY /Musify/* /usr/src/app/
 
+RUN ls
+
 RUN npm install
 
 # Bundle app source
