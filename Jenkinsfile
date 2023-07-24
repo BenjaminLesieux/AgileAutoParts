@@ -34,6 +34,7 @@ pipeline {
             sonar_password = credentials('sonar_password')
           }
           steps {
+            sh 'ls'
             withSonarQubeEnv(installationName: "SonarQube") {
                 sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
             }
