@@ -11,7 +11,7 @@ RUN npm -v
 RUN node -v
 
 # Install app dependencies
-COPY /Musify/* /usr/src/app/
+COPY /Musify/ /usr/src/app/
 
 WORKDIR /usr/src/app/Musify/
 
