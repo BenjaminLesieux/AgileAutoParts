@@ -13,7 +13,7 @@ RUN node -v
 # Install app dependencies
 COPY /Musify/* /usr/src/app/
 
-RUN ls
+RUN echo $(ls)
 
 RUN npm install
 
