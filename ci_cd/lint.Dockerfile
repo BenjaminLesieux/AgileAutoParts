@@ -13,12 +13,9 @@ RUN node -v
 # Install app dependencies
 COPY /Musify/* /usr/src/app/
 
-RUN echo $(ls)
+WORKDIR /usr/src/app/Musify/
 
 RUN npm install
-
-# Bundle app source
-COPY . /usr/src/app
 
 # Port to listener
 EXPOSE 3000
