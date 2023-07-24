@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Lint code') {
             steps {
-                sh 'docker build -t react-lint -f lint.Dockerfile --no-cache .'
+                sh 'docker build -t react-lint -f ./ci_cd/lint.Dockerfile --no-cache .'
             }
         }
         stage('Docker lint'){
@@ -34,7 +34,7 @@ pipeline {
         }
         stage('Build Docker test'){
            steps {
-              sh 'docker build -t react-test -f test.Dockerfile --no-cache .'
+              sh 'docker build -t react-test -f ./ci_cd/test.Dockerfile --no-cache .'
            }
         }
         stage('Docker test'){
@@ -49,6 +49,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
           steps {
+           discordSend description: "Launching SonarQube quality gate", footer: "AgileAutoParts", result: currentBuild.currentResult, title: "Quality Gate", webhookURL: env.discord_wh
             def scannerHome = tool 'SonarQube';
             withSonarQubeEnv(installationName: "SonarQube") {
                 sh "${scannerHome}/bin/sonar-scanner"
@@ -57,7 +58,7 @@ pipeline {
         }
         stage('Deploy'){
           steps {
-            sh 'docker build -t react-app build.Dockerfile --no-cache .'
+            sh 'docker build -t react-app ./ci_cd/build.Dockerfile --no-cache .'
             sh 'docker tag react-app localhost:5000/react-app'
             sh 'docker push localhost:5000/react-app'
             sh 'docker rmi -f react-app localhost:5000/react-app'
