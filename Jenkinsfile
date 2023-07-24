@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        discord_wh = credentials('discord_wh')
+    }
     stages {
         stage('Checkout') {
           steps {
@@ -44,6 +47,12 @@ pipeline {
             sh 'docker rmi -f react-test'
           }
         }
+        stage('SonarQube Analysis') {
+          def scannerHome = tool 'SonarQube';
+          withSonarQubeEnv() {
+            sh "${scannerHome}/bin/sonar-scanner"
+          }
+        }
         stage('Deploy'){
           steps {
             sh 'docker build -t react-app build.Dockerfile --no-cache .'
@@ -51,6 +60,17 @@ pipeline {
             sh 'docker push localhost:5000/react-app'
             sh 'docker rmi -f react-app localhost:5000/react-app'
           }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline run finished'
+        }
+        success {
+           discordSend description: "Pipeline job has been successfully finished ", footer: "AgileAutoParts", result: currentBuild.currentResult, title: "AgileAutoParts_Deploy", webhookURL: env.discord_wh
+        }
+        failure {
+           discordSend description: "Pipeline job has failed ", footer: "AgileAutoParts", result: currentBuild.currentResult, title: "AgileAutoParts_Deploy", webhookURL: env.discord_wh
         }
     }
 }

@@ -1,5 +1,11 @@
 version: "3"
 services:
+  sonarqube_server:
+    image: sonarqube
+    container_name: sonarqube
+    restart: always
+    ports:
+      - "9000:9000"
   jenkins_server:
     build:
       context: .
