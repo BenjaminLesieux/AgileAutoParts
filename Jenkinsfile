@@ -30,8 +30,9 @@ pipeline {
         stage('SonarQube Analysis') {
           steps {
             discordSend description: "Launching SonarQube quality gate", footer: "AgileAutoParts", result: currentBuild.currentResult, title: "Quality Gate", webhookURL: env.discord_wh
+            def scannerHome = tool 'sonar_scanner';
             withSonarQubeEnv(installationName: "SonarQube") {
-                sh "SonarQube/bin/sonar-scanner"
+                sh "${scannerHome}/bin/sonar-scanner"
             }
           }
         }
