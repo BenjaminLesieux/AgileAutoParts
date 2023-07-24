@@ -10,14 +10,11 @@ WORKDIR /usr/src/app
 RUN npm -v
 RUN node -v
 
-COPY /Musify/ /usr/src/app
+COPY /Musify/* /usr/src/app
 COPY /Musify/package.json /usr/src/app
 COPY /Musify/package-lock.json /usr/src/app
 
 RUN npm install
-
-# Bundle app source
-COPY . /usr/src/app
 
 # Environment variables
 ENV NODE_ENV test
