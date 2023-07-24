@@ -11,7 +11,7 @@ RUN npm ci
 FROM base AS builder
 WORKDIR /usr/src/app
 COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY . .
+COPY /usr/src/app/ .
 RUN npm run build
 
 FROM base AS runner
