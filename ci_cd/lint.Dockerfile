@@ -11,11 +11,13 @@ RUN npm -v
 RUN node -v
 
 # Install app dependencies
-COPY /Musify/ /usr/src/app/
-
-WORKDIR /usr/src/app/Musify/
+COPY /Musify/package.json /usr/src/app/
+COPY /Musify/package-lock.json /usr/src/app/
 
 RUN npm install
+
+# Bundle app source
+COPY /Musify/* /usr/src/app
 
 # Port to listener
 EXPOSE 3000
