@@ -48,8 +48,10 @@ pipeline {
           }
         }
         stage('SonarQube Analysis') {
-          withSonarQubeEnv(installationName: "SonarQube") {
-            sh "${scannerHome}/bin/sonar-scanner"
+          steps {
+            withSonarQubeEnv(installationName: "SonarQube") {
+                sh "${scannerHome}/bin/sonar-scanner"
+            }
           }
         }
         stage('Deploy'){
