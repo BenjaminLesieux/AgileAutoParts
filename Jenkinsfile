@@ -33,7 +33,7 @@ pipeline {
           }
           steps {
             withSonarQubeEnv(installationName: "SonarQube") {
-                sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://sonarqube:9000"
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${env.sonar_login} -Dsonar.password=${env.sonar_password}"
             }
           }
         }
