@@ -32,7 +32,7 @@ pipeline {
             scannerHome = tool 'sonarqube'
           }
           steps {
-            withSonarQubeEnv(installationName: "SonarQube") {
+            withSonarQubeEnv(installationName: "SonarQube", serverUrl: "http://sonarqube:9000") {
                 sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
             }
           }
