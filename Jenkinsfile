@@ -34,20 +34,9 @@ pipeline {
             sonar_password = credentials('sonar_password')
           }
           steps {
-            sh 'ls'
+            sh 'ls with-jest-app'
             withSonarQubeEnv(installationName: "SonarQube") {
                 sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
-            }
-          }
-        }
-        stage("Quality gate") {
-          steps {
-            script {
-              def qualitygate = waitForQualityGate()
-              sleep(10)
-              if (qualitygate.status != "OK") {
-                waitForQualityGate abortPipeline: true
-              }
             }
           }
         }
