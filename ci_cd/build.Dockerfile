@@ -12,10 +12,9 @@ COPY /with-jest-app/ ./
 
 FROM base AS builder
 WORKDIR /usr/src/app
-RUN npm install -g pnpm
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=deps /usr/src/app/ .
-RUN pnpm run build
+RUN npm run build
 
 FROM base AS runner
 WORKDIR usr/src/app
