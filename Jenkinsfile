@@ -9,7 +9,7 @@ pipeline {
         sonar_password = credentials('sonar_password')
     }
     options {
-        timeout(time: 3)
+        timeout(time: 10)
     }
     stages {
         stage('Checkout & Environment') {
