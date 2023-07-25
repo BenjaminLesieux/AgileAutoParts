@@ -8,6 +8,9 @@ pipeline {
         sonar_login = credentials('sonar_login')
         sonar_password = credentials('sonar_password')
     }
+    options {
+        timeout(time: 3)
+    }
     stages {
         stage('Checkout & Environment') {
           steps {
