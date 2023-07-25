@@ -12,14 +12,14 @@ COPY /with-jest-app/ ./
 
 FROM base AS builder
 WORKDIR /usr/src/app
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+RUN npm install -g pnpm
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=deps /usr/src/app/ .
 RUN pnpm run build
 
 FROM base AS runner
 WORKDIR usr/src/app
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+RUN npm install -g pnpm
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /usr/src/app/public ./public
