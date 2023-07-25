@@ -9,10 +9,6 @@ pipeline {
         stage('Checkout & Environment') {
           steps {
             checkout scm
-            sh 'git --version'
-            echo "Branch: ${env.BRANCH_NAME}"
-            sh 'docker -v'
-            sh 'printenv'
           }
         }
         stage('Lint code') {
