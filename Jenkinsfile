@@ -6,42 +6,49 @@ pipeline {
         dockerhub_pwd = credentials('dockerhub_pwd')
     }
     stages {
-//         stage('Checkout & Environment') {
-//           steps {
-//             checkout scm
-//             sh 'git --version'
-//             echo "Branch: ${env.BRANCH_NAME}"
-//             sh 'docker -v'
-//             sh 'printenv'
-//           }
-//         }
-//         stage('Lint code') {
-//             steps {
-//                 sh 'docker build -t react-lint -f ./ci_cd/lint.Dockerfile --no-cache .'
-//                 sh 'docker run --rm react-lint'
-//                 sh 'docker rmi -f react-lint'
-//             }
-//         }
-//         stage('Test code'){
-//            steps {
-//               sh 'docker build -t react-test -f ./ci_cd/test.Dockerfile --no-cache .'
-//               sh 'docker run --rm react-test'
-//               sh 'docker rmi -f react-test'
-//            }
-//         }
-//         stage('SonarQube Analysis') {
-//           environment {
-//             scannerHome = tool 'sonarqube'
-//             sonar_login = credentials('sonar_login')
-//             sonar_password = credentials('sonar_password')
-//           }
-//           steps {
-//             sh 'ls with-jest-app'
-//             withSonarQubeEnv(installationName: "SonarQube") {
-//                 sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
-//             }
-//           }
-//         }
+        stage('Checkout & Environment') {
+          steps {
+            checkout scm
+            sh 'git --version'
+            echo "Branch: ${env.BRANCH_NAME}"
+            sh 'docker -v'
+            sh 'printenv'
+          }
+        }
+        stage('Lint code') {
+            steps {
+                sh 'docker build -t react-lint -f ./ci_cd/lint.Dockerfile --no-cache .'
+                sh 'docker run --rm react-lint'
+                sh 'docker rmi -f react-lint'
+            }
+        }
+        stage('Test code'){
+           steps {
+              sh 'docker build -t react-test -f ./ci_cd/test.Dockerfile --no-cache .'
+              sh 'docker run --rm react-test'
+              sh 'docker rmi -f react-test'
+           }
+        }
+        stage('SonarQube Analysis') {
+          environment {
+            scannerHome = tool 'sonarqube'
+            sonar_login = credentials('sonar_login')
+            sonar_password = credentials('sonar_password')
+          }
+          steps {
+            sh 'ls with-jest-app'
+            withSonarQubeEnv(installationName: "SonarQube") {
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
+            }
+          }
+        },
+        stage("Quality Gate") {
+          steps {
+            timeout(time: 5, unit: 'MINUTES') {
+              waitForQualityGate abortPipeline: true
+            }
+          }
+        }
         stage('Deploy'){
           steps {
             sh 'docker login -u ${dockerhub_usr} -p ${dockerhub_pwd}'
