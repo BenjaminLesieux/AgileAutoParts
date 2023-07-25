@@ -18,11 +18,4 @@ services:
       - ./jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      - registry
       - sonarqube_server
-  registry:
-    image: registry
-    container_name: registry
-    restart: always
-    ports:
-      - "4000:5000"
