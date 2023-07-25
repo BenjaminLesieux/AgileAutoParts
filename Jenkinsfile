@@ -30,7 +30,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
           steps {
-            sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=./sonar-project.properties"
+            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=BenjaminLesieux_AgileAutoParts_AYmHuTrwUUH-oCO6QK7t -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
           }
         }
         stage("Quality Gate") {
