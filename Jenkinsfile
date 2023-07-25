@@ -17,34 +17,34 @@ pipeline {
             checkout scm
           }
         }
-//         stage('Lint code') {
-//             steps {
-//                 sh 'docker build -t react-lint -f ./ci_cd/lint.Dockerfile --no-cache .'
-//                 sh 'docker run --rm react-lint'
-//                 sh 'docker rmi -f react-lint'
+        stage('Lint code') {
+            steps {
+                sh 'docker build -t react-lint -f ./ci_cd/lint.Dockerfile --no-cache .'
+                sh 'docker run --rm react-lint'
+                sh 'docker rmi -f react-lint'
+            }
+        }
+        stage('Test code'){
+           steps {
+              sh 'docker build -t react-test -f ./ci_cd/test.Dockerfile --no-cache .'
+              sh 'docker run --rm react-test'
+              sh 'docker rmi -f react-test'
+           }
+        }
+//         stage('SonarQube Analysis') {
+//           steps {
+//             withSonarQubeEnv('SonarQube') {
+//                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=BenjaminLesieux_AgileAutoParts_AYmHuTrwUUH-oCO6QK7t -Dsonar.language=ts -Dsonar.webhooks.project=http://jenkins:8080/sonarqube-webhook/ -Dsonar.host.url=http://sonarqube:9000 -Dsonar.web.host=0.0.0.0 -Dsonar.web.port:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
 //             }
+//           }
 //         }
-//         stage('Test code'){
-//            steps {
-//               sh 'docker build -t react-test -f ./ci_cd/test.Dockerfile --no-cache .'
-//               sh 'docker run --rm react-test'
-//               sh 'docker rmi -f react-test'
-//            }
+//         stage("Quality Gate") {
+//           steps {
+//             timeout(time: 5, unit: 'MINUTES') {
+//               waitForQualityGate abortPipeline: true
+//             }
+//           }
 //         }
-        stage('SonarQube Analysis') {
-          steps {
-            withSonarQubeEnv('SonarQube') {
-               sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=BenjaminLesieux_AgileAutoParts_AYmHuTrwUUH-oCO6QK7t -Dsonar.language=ts -Dsonar.webhooks.project=http://jenkins:8080/sonarqube-webhook/ -Dsonar.host.url=http://sonarqube:9000 -Dsonar.web.host=0.0.0.0 -Dsonar.web.port:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
-            }
-          }
-        }
-        stage("Quality Gate") {
-          steps {
-            timeout(time: 5, unit: 'MINUTES') {
-              waitForQualityGate abortPipeline: true
-            }
-          }
-        }
         stage('Deploy'){
           steps {
             sh 'docker login -u ${dockerhub_usr} -p ${dockerhub_pwd}'
