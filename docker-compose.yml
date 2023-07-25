@@ -1,6 +1,8 @@
 version: "3"
 services:
   sonarqube_server:
+    networks:
+      - sonarnet
     environment:
       - sonar.projectKey=BenjaminLesieux_AgileAutoParts_AYmHuTrwUUH-oCO6QK7t
       - sonar.language=ts
@@ -13,6 +15,8 @@ services:
       - "9000:9000"
   jenkins_server:
     container_name: jenkins
+    networks:
+      - sonarnet
     environment:
       - JVM_OPTS=-Xmx12g -Xms12g -XX:MaxPermSize=2048m
     build:
@@ -20,8 +24,13 @@ services:
       dockerfile: jenkins.Dockerfile
     ports:
       - "8080:8080"
+      - "50000:50000"
     volumes:
       - ./jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - sonarqube_server
+
+networks:
+  sonarnet:
+    driver: bridge
