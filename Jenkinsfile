@@ -46,9 +46,9 @@ pipeline {
           steps {
             sh 'docker login -u ${dockerhub_usr} -p ${dockerhub_pwd}'
             sh 'docker build -t agile_auto_parts -f ./ci_cd/build.Dockerfile --no-cache .'
-            sh 'docker tag agile_auto_parts https://index.docker.io/v2/benjaminlesieux/agile_auto_parts'
-            sh 'docker push https://index.docker.io/v2/benjaminlesieux/agile_auto_parts'
-            sh 'docker rmi -f agile_auto_parts https://index.docker.io/v2/benjaminlesieux/agile_auto_parts'
+            sh 'docker tag agile_auto_parts ${dockerhub_usr}/agile_auto_parts:${env.BUILD_NUMBER}'
+            sh 'docker push ${dockerhub_usr}/agile_auto_parts:${env.BUILD_NUMBER}'
+            sh 'docker rmi -f agile_auto_parts ${dockerhub_usr}/agile_auto_parts:${env.BUILD_NUMBER}'
           }
         }
     }
