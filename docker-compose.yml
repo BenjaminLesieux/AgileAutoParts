@@ -14,6 +14,7 @@ services:
     ports:
       - "9000:9000"
   jenkins_server:
+    restart: always
     container_name: jenkins
     networks:
       - sonarnet
