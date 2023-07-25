@@ -12,8 +12,9 @@ services:
     ports:
       - "9000:9000"
   jenkins_server:
+    container_name: jenkins
     environment:
-      - JVM_OPTS=-Xmx12g -Xms12g -XX:MaxPermSize=1024m
+      - JVM_OPTS=-Xmx12g -Xms12g -XX:MaxPermSize=2048m
     build:
       context: .
       dockerfile: jenkins.Dockerfile
