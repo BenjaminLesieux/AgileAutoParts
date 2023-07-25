@@ -30,7 +30,9 @@ pipeline {
 //         }
         stage('SonarQube Analysis') {
           steps {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=BenjaminLesieux_AgileAutoParts_AYmHuTrwUUH-oCO6QK7t -Dsonar.webhooks.project=http://jenkins_server:8080/sonarqube-webhook/ -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
+            withSonarQubeEnv('SonarQube') {
+               sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=BenjaminLesieux_AgileAutoParts_AYmHuTrwUUH-oCO6QK7t -Dsonar.language=ts -Dsonar.webhooks.project=http://jenkins_server:8080/sonarqube-webhook/ -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
+            }
           }
         }
         stage("Quality Gate") {
