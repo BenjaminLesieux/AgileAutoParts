@@ -18,15 +18,11 @@ services:
     container_name: jenkins
     networks:
       - sonarnet
-    environment:
-      - JVM_OPTS=-Xmx12g -Xms12g -XX:MaxPermSize=2048m
-      - org.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=300
     build:
       context: .
       dockerfile: jenkins.Dockerfile
     ports:
       - "8080:8080"
-      - "50000:50000"
     volumes:
       - ./jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
