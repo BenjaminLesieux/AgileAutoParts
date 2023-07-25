@@ -7,7 +7,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY /with-jest-app/package.json ./
 COPY /with-jest-app/pnpm-lock.yaml ./
-RUN pnpm i --frozen-lockfile
+RUN pnpm i --frozen-lockfile --production
 COPY /with-jest-app/ ./
 
 FROM base AS builder
