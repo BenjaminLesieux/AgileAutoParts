@@ -1,6 +1,11 @@
 version: "3"
 services:
   sonarqube_server:
+    environment:
+      - sonar.projectKey=BenjaminLesieux_AgileAutoParts_AYmHuTrwUUH-oCO6QK7t
+      - sonar.language=ts
+      - sonar.sources=with-jest-app/pages/
+      - sonar.host.url=http://sonarqube:9000
     image: sonarqube
     container_name: sonarqube
     restart: always

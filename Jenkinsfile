@@ -30,7 +30,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
           steps {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
+            sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=./sonar-project.properties"
           }
         }
         stage("Quality Gate") {
