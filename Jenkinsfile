@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
         discord_wh = credentials('discord_wh')
+        dockerhub_usr = credentials('dockerhub_usr')
+        dockerhub_pwd = credentials('dockerhub_pwd')
     }
     stages {
 //         stage('Checkout & Environment') {
@@ -42,10 +44,11 @@ pipeline {
 //         }
         stage('Deploy'){
           steps {
-            sh 'docker build -t react-app -f ./ci_cd/build.Dockerfile --no-cache .'
-            sh 'docker tag react-app registry:5000/react-app'
-            sh 'docker push registry:5000/react-app'
-            sh 'docker rmi -f react-app registry:5000/react-app'
+            sh 'docker login -u ${dockerhub_usr} -p ${dockerhub_pwd}'
+            sh 'docker build -t agile_auto_parts -f ./ci_cd/build.Dockerfile --no-cache .'
+            sh 'docker tag agile_auto_parts https://index.docker.io/v2/benjaminlesieux/agile_auto_parts'
+            sh 'docker push https://index.docker.io/v2/benjaminlesieux/agile_auto_parts'
+            sh 'docker rmi -f agile_auto_parts https://index.docker.io/v2/benjaminlesieux/agile_auto_parts'
           }
         }
     }

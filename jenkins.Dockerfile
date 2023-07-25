@@ -5,10 +5,10 @@ USER root
 RUN echo "Running jenkins.Dockerfile"
 
 RUN apt-get update
-RUN apt-get install net-tools
+RUN apt-get install -y net-tools
 
 # Install docker repo
-RUN apt-get install ca-certificates curl gnupg
+RUN apt-get install -y ca-certificates curl gnupg
 RUN install -m 0755 -d /etc/apt/keyrings
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 RUN chmod a+r /etc/apt/keyrings/docker.gpg
@@ -19,4 +19,13 @@ RUN echo \
 
 # Install docker engine
 RUN apt-get update
-RUN apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Install DiscordSend plugin
+RUN /usr/local/bin/install-plugins.sh discord
+
+# Install SonarQube Scanner plugin
+RUN /usr/local/bin/install-plugins.sh sonar
+
+# Drop back to the jenkins user
+USER jenkins
