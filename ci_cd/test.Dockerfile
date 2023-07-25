@@ -9,11 +9,12 @@ WORKDIR /usr/src/app
 # Versions
 RUN npm -v
 RUN node -v
+RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
 COPY /with-jest-app/package.json /usr/src/app
 COPY /with-jest-app/package-lock.json /usr/src/app/
 
-RUN npm install
+RUN pnpm install --frozen-lockfile
 
 COPY /with-jest-app/ /usr/src/app
 

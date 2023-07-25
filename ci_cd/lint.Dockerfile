@@ -10,11 +10,13 @@ WORKDIR /usr/src/app
 RUN npm -v
 RUN node -v
 
+RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+
 # Install app dependencies
 COPY /with-jest-app/package.json /usr/src/app/
 COPY /with-jest-app/package-lock.json /usr/src/app/
 
-RUN npm install
+RUN pnpm install --frozen-lockfile
 
 # Bundle app source
 COPY /with-jest-app/ /usr/src/app/

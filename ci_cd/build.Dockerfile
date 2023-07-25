@@ -2,11 +2,12 @@ FROM node:18-alpine AS base
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
+RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY /with-jest-app/package.json ./
 COPY /with-jest-app/package-lock.json ./
-RUN npm i
+RUN pnpm i --frozen-lockfile
 COPY /with-jest-app/ ./
 
 FROM base AS builder
