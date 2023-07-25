@@ -43,9 +43,9 @@ pipeline {
         stage('Deploy'){
           steps {
             sh 'docker build -t react-app -f ./ci_cd/build.Dockerfile --no-cache .'
-            sh 'docker tag react-app localhost:5000/react-app'
-            sh 'docker push localhost:5000/react-app'
-            sh 'docker rmi -f react-app localhost:5000/react-app'
+            sh 'docker tag react-app registry:5000/react-app'
+            sh 'docker push registry:5000/react-app'
+            sh 'docker rmi -f react-app registry:5000/react-app'
           }
         }
     }
