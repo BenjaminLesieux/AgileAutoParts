@@ -4,6 +4,9 @@ pipeline {
         discord_wh = credentials('discord_wh')
         dockerhub_usr = credentials('dockerhub_usr')
         dockerhub_pwd = credentials('dockerhub_pwd')
+        scannerHome = tool 'sonarqube'
+        sonar_login = credentials('sonar_login')
+        sonar_password = credentials('sonar_password')
     }
     stages {
         stage('Checkout & Environment') {
@@ -26,11 +29,6 @@ pipeline {
            }
         }
         stage('SonarQube Analysis') {
-          environment {
-            scannerHome = tool 'sonarqube'
-            sonar_login = credentials('sonar_login')
-            sonar_password = credentials('sonar_password')
-          }
           steps {
             sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonar_login} -Dsonar.password=${sonar_password}"
           }
