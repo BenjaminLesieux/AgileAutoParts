@@ -2,7 +2,7 @@ FROM node:latest AS base
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+RUN npm install -g pnpm
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY /with-jest-app/package.json ./

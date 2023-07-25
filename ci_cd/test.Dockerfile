@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 # Versions
 RUN npm -v
 RUN node -v
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+RUN npm install -g pnpm
 
 COPY /with-jest-app/package.json /usr/src/app
 COPY /with-jest-app/pnpm-lock.yaml /usr/src/app/
