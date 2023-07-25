@@ -31,10 +31,10 @@ The name of the plugins are:
 Go to Manage Jenkins > System and scroll down to the SonarQube section.
 Do as such: 
 - Name: SonarQube
-[](./pictures/sonarqube_servers.png)
+[sonarqube servers](/pictures/sonarqube_servers.png)
 
 In the same section, make sure your jenkins url is correct.
-[](./pictures/jenkins_loc.png)
+[jenkins location](/pictures/jenkins_loc.png)
 
 NB: You can change the credentials in the docker-compose.yml file or on the jenkins ui interface
 4. Go to http://localhost:9000/ and login with the following credentials
@@ -78,9 +78,9 @@ password: admin
 
 Make sure the following properties are set:
 **Build Triggers**
-[](./pictures/build_triggers.png)
+[build triggers](/pictures/build_triggers.png)
 **SCM Pipeline Options**
-[](./pictures/SCM_pipeline.png)
+[pipeline options](/pictures/SCM_pipeline.png)
 
 1. Run the pipeline
 2. Check the SonarQube dashboard to see the results of the analysis
